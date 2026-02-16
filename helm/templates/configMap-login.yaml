@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-login-config
+data:
+  # MySQL connection info (host = mysql-login service name)
+  MYSQL_DB_HOST: {{ .Values.login.mysql.host | quote }}
+  MYSQL_DB_PORT: {{ .Values.login.mysql.port | quote }}
+  # CHAT_ENDPOINT is the NGINX Ingress Controller's LoadBalancer external IP.
+  # After deploying, find the external IP:
+  #   kubectl get services -n ingress-nginx
+  # Then upgrade the helm release:
+  #   helm upgrade wecloud ./helm --set ingress.externalIp=<EXTERNAL_IP>
+  CHAT_ENDPOINT: {{ .Values.ingress.externalIp | quote }}

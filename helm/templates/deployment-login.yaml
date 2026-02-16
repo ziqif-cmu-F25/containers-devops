@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-login-deployment
+spec:
+  replicas: {{ .Values.login.replicaCount }}
+  selector:
+    matchLabels:
+      app: spring-login
+  template:
+    metadata:
+      labels:
+        app: spring-login
+    spec:
+      containers:
+        - name: spring-login-container
+          image: "{{ .Values.weCloud.imageRegistry.active }}/{{ .Values.login.repository }}/{{ .Values.login.image }}:{{ .Values.login.tag }}"
+          imagePullPolicy: {{ .Values.login.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.login.service.targetPort }}
+          resources:
+            requests:
+              cpu: {{ .Values.login.hpa.cpuRequest | quote }}
+          envFrom:
+            - configMapRef:
+                name: spring-login-config
+          env:
+            - name: MYSQL_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: login-secret
+                  key: mysql-username
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: login-secret
+                  key: mysql-password

@@ -1,0 +1,15 @@
+{{- if eq .Values.global.environment "gcp" }}
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: spring-chat-autoscaling
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spring-chat-deployment
+  minReplicas: {{ .Values.chat.hpa.minReplicas }}
+  maxReplicas: {{ .Values.chat.hpa.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.chat.hpa.targetCPUUtilizationPercentage }}
+{{- end }}

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-profile-deployment
+spec:
+  replicas: {{ .Values.profile.replicaCount }}
+  selector:
+    matchLabels:
+      app: spring-profile
+  template:
+    metadata:
+      labels:
+        app: spring-profile
+    spec:
+      containers:
+        - name: spring-profile-container
+          image: "{{ .Values.weCloud.imageRegistry.active }}/{{ .Values.profile.repository }}/{{ .Values.profile.image }}:{{ .Values.profile.tag }}"
+          imagePullPolicy: {{ .Values.profile.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.profile.service.targetPort }}
+          resources:
+            requests:
+              cpu: {{ .Values.profile.hpa.cpuRequest | quote }}
+          envFrom:
+            - configMapRef:
+                name: spring-profile-config
+          env:
+            - name: MYSQL_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: profile-secret
+                  key: mysql-username
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: profile-secret
+                  key: mysql-password

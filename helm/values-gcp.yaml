@@ -1,0 +1,34 @@
+# ============================================================
+# GCP-specific overrides
+# Usage: cd ~/Project_Containers/task5/helm
+#        helm install wecloud . -f values-gcp.yaml
+# ============================================================
+# Fields to verify / update before deploying:
+#   - ingress.externalIp : set after NGINX ingress controller is running
+#   - chat.profileEndpoints : for multi-cloud, add the Azure ingress IP
+#     e.g. "spring-profile-service.default.svc.cluster.local,<AZURE_INGRESS_IP>"
+# ============================================================
+
+global:
+  environment: "gcp"
+
+weCloud:
+  imageRegistry:
+    active: "us-east1-docker.pkg.dev/gcp-docker-kubernetes-487305"
+
+chat:
+  repository: "profile-service-repo"
+  image: "chat-service-repo/chat-service"
+  tag: "latest"
+  # For multi-cloud: add Azure ingress IP as a comma-separated endpoint
+  # profileEndpoints: "spring-profile-service.default.svc.cluster.local,<AZURE_INGRESS_IP>"
+
+login:
+  repository: "profile-service-repo"
+  image: "login-service-repo/login-service"
+  tag: "latest"
+
+profile:
+  repository: "profile-service-repo"
+  image: "profile-service"
+  tag: "task3-20260214-194416"

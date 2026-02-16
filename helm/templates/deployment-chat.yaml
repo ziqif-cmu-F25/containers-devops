@@ -1,0 +1,44 @@
+{{- if eq .Values.global.environment "gcp" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-chat-deployment
+spec:
+  replicas: {{ .Values.chat.replicaCount }}
+  selector:
+    matchLabels:
+      app: spring-chat
+  template:
+    metadata:
+      labels:
+        app: spring-chat
+    spec:
+      containers:
+        - name: spring-chat-container
+          image: "{{ .Values.weCloud.imageRegistry.active }}/{{ .Values.chat.repository }}/{{ .Values.chat.image }}:{{ .Values.chat.tag }}"
+          imagePullPolicy: {{ .Values.chat.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.chat.service.targetPort }}
+          resources:
+            requests:
+              cpu: {{ .Values.chat.hpa.cpuRequest | quote }}
+          envFrom:
+            - configMapRef:
+                name: spring-chat-config
+          env:
+            - name: MYSQL_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chat-secret
+                  key: mysql-username
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chat-secret
+                  key: mysql-password
+            - name: SPRING_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.redis.passwordSecret }}
+                  key: {{ .Values.redis.passwordKey }}
+{{- end }}

@@ -1,0 +1,55 @@
+{  
+    "referenceGuide" : "Cite all the reference sources in the required format. Proper citations will help you avoid unnecessary trouble. Read JSON grammar from Internet if needed.",
+    "websites":[  
+        {  
+            "title":"Authenticate to Google Cloud - GitHub Action",
+            "url":"https://github.com/google-github-actions/auth",
+            "code":".github/workflows/cicd.yml - Authenticate to Google Cloud steps",
+            "description":"Used google-github-actions/auth@v2 with Service Account key JSON to authenticate into GCP from GitHub Actions."
+        },
+        {  
+            "title":"Docker Login Action - Google Artifact Registry",
+            "url":"https://github.com/docker/login-action#google-artifact-registry-gar",
+            "code":".github/workflows/cicd.yml - Login to GAR step",
+            "description":"Used docker/login-action@v3 with _json_key username and GCP_SA_KEY secret to authenticate Docker with GAR."
+        },
+        {  
+            "title":"Set up gcloud Cloud SDK environment",
+            "url":"https://github.com/google-github-actions/setup-gcloud",
+            "code":".github/workflows/cicd.yml - Setup gcloud CLI step",
+            "description":"Used google-github-actions/setup-gcloud@v2 to configure gcloud CLI with project_id for docker auth and GKE operations."
+        },
+        {  
+            "title":"Get GKE Credentials - GitHub Action",
+            "url":"https://github.com/google-github-actions/get-gke-credentials",
+            "code":".github/workflows/cicd.yml - Get GKE Credentials step",
+            "description":"Used google-github-actions/get-gke-credentials@v2 with cluster_name and location to configure kubectl for GKE deployment."
+        },
+        {  
+            "title":"Azure Login - GitHub Action (OIDC)",
+            "url":"https://github.com/Azure/login",
+            "code":".github/workflows/cicd.yml - Login to Azure step",
+            "description":"Used azure/login@v2 with OpenID Connect (client-id, tenant-id, subscription-id) for Azure authentication."
+        },
+        {  
+            "title":"Azure Kubernetes Set Context - GitHub Action",
+            "url":"https://github.com/Azure/aks-set-context",
+            "code":".github/workflows/cicd.yml - Set AKS context step",
+            "description":"Used azure/aks-set-context@v3 with resource-group and cluster-name to configure kubectl for AKS deployment."
+        },
+        {  
+            "title":"Microsoft Azure Container Registry Login - GitHub Action",
+            "url":"https://github.com/Azure/docker-login",
+            "code":".github/workflows/cicd.yml - Azure Container Registry login step",
+            "description":"Used azure/docker-login@v2 with login-server, username, and password to authenticate Docker with ACR."
+        },
+        {  
+            "title":"tj-actions/changed-files - GitHub Action",
+            "url":"https://github.com/tj-actions/changed-files",
+            "code":".github/workflows/cicd.yml - check-changed-files job",
+            "description":"Used to detect changed files per microservice directory and helm folder to conditionally trigger build and deploy jobs."
+        }
+    ],
+    "collaborators":[
+    ]
+}

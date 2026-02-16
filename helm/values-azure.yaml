@@ -1,0 +1,41 @@
+# ============================================================
+# Azure-specific overrides
+# Usage: cd ~/Project_Containers/task5/helm
+#        helm install wecloud . -f values-azure.yaml
+# ============================================================
+# Fields to fill in before deploying on AKS:
+#   - weCloud.imageRegistry.active : replace with your ACR login server
+#     Run: az acr show --name $ACR_NAME --query loginServer -o tsv
+#   - ingress.externalIp : set after Azure NGINX ingress controller is running
+#     Run: kubectl get svc my-nginx-nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+#
+# Note: On Azure, only profile + login are deployed (chat + redis are GCP-only).
+# ============================================================
+
+global:
+  environment: "azure"
+
+weCloud:
+  imageRegistry:
+    active: "wecloudacr88833.azurecr.io"
+
+profile:
+  repository: "profile-service-repo"
+  image: "profile-service"
+  tag: "latest"
+  mysql:
+    host: "mysql-profile"
+    user: "profileuser"
+    password: "UserPassword123"
+    database: "test"
+    port: "3306"
+
+login:
+  repository: "login-service-repo"
+  image: "login-service"
+  tag: "latest"
+  mysql:
+    host: "mysql-login"
+    user: "loginuser"
+    password: "LoginPassword123"
+    port: "3306"
