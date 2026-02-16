@@ -16,7 +16,7 @@ weCloud:
 # ============================================================
 profile:
   releaseName: "profile"
-  replicaCount: 1
+  replicaCount: 2
   repository: "profile-service-repo"
   image: "profile-service"
   tag: "task3-20260214-194416"
